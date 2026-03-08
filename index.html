@@ -1,0 +1,1032 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mirror World Forum</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Source+Serif+4:wght@300;400;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --ink: #0f0e0c;
+      --paper: #f5f2eb;
+      --cream: #ede9df;
+      --accent: #c0392b;
+      --accent2: #1a3a5c;
+      --muted: #7a7468;
+      --border: #d4cfc5;
+      --gold: #b8963e;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--paper);
+      color: var(--ink);
+      font-family: 'Source Serif 4', Georgia, serif;
+      font-size: 16px;
+      line-height: 1.65;
+    }
+
+    /* ── HEADER ── */
+    header {
+      border-bottom: 3px double var(--border);
+      background: var(--paper);
+      position: sticky; top: 0; z-index: 100;
+    }
+
+    .header-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 48px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .dateline {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .btn {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 7px 18px;
+      border: 1.5px solid var(--ink);
+      background: transparent;
+      color: var(--ink);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn:hover { background: var(--ink); color: var(--paper); }
+    .btn.primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+    .btn.primary:hover { background: #a93226; border-color: #a93226; }
+
+    .masthead {
+      text-align: center;
+      padding: 24px 48px 16px;
+    }
+
+    .masthead-name {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(40px, 7vw, 80px);
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      line-height: 1;
+      color: var(--ink);
+    }
+
+    .masthead-rule {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      justify-content: center;
+      margin: 10px 0 6px;
+    }
+    .masthead-rule hr { flex: 1; max-width: 200px; border: none; border-top: 1px solid var(--ink); }
+
+    .masthead-tagline {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    nav {
+      display: flex;
+      justify-content: center;
+      gap: 0;
+      border-top: 1px solid var(--border);
+      padding: 0 48px;
+      overflow-x: auto;
+    }
+    nav a {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink);
+      text-decoration: none;
+      padding: 10px 20px;
+      border-right: 1px solid var(--border);
+      transition: background 0.15s;
+      white-space: nowrap;
+    }
+    nav a:first-child { border-left: 1px solid var(--border); }
+    nav a:hover, nav a.active { background: var(--ink); color: var(--paper); }
+
+    /* ── LAYOUT ── */
+    .page { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+
+    .ticker {
+      background: var(--accent2);
+      color: #fff;
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.06em;
+      padding: 8px 0;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+    .ticker-inner {
+      display: inline-block;
+      animation: ticker 30s linear infinite;
+    }
+    .ticker-inner span { margin-right: 60px; }
+    .ticker-inner span::before { content: "◆ "; color: var(--gold); }
+    @keyframes ticker {
+      0% { transform: translateX(100vw); }
+      100% { transform: translateX(-100%); }
+    }
+
+    /* ── MAIN GRID ── */
+    .main-grid {
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      gap: 0;
+      border-top: 2px solid var(--ink);
+      margin-top: 32px;
+    }
+
+    .feed { border-right: 1px solid var(--border); padding-right: 40px; }
+    .sidebar { padding-left: 32px; }
+
+    /* ── SECTION HEADERS ── */
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 24px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid var(--ink);
+    }
+    .section-header h2 {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .section-header .tag {
+      background: var(--accent);
+      color: #fff;
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      padding: 2px 8px;
+      text-transform: uppercase;
+    }
+
+    /* ── DEBATE CARD ── */
+    .debate-card {
+      border-bottom: 1px solid var(--border);
+      padding: 28px 0;
+      animation: fadeUp 0.5s ease both;
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .card-meta {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .region-tag {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      border: 1px solid currentColor;
+      padding: 2px 8px;
+    }
+    .region-tag.asia { color: #c0392b; }
+    .region-tag.europe { color: #1a3a5c; }
+    .region-tag.mideast { color: #b8963e; }
+    .region-tag.global { color: #2d6a4f; }
+    .region-tag.americas { color: #6b3fa0; }
+
+    .card-time {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      color: var(--muted);
+    }
+
+    .debate-card h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(18px, 2.5vw, 26px);
+      font-weight: 700;
+      line-height: 1.25;
+      margin-bottom: 10px;
+      cursor: pointer;
+      transition: color 0.15s;
+    }
+    .debate-card h3:hover { color: var(--accent); }
+
+    .debate-card .summary {
+      color: #3d3a35;
+      font-size: 15px;
+      line-height: 1.7;
+      margin-bottom: 16px;
+    }
+
+    .card-footer {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .vote-group {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      border: 1.5px solid var(--border);
+      overflow: hidden;
+    }
+
+    .vote-btn {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      padding: 5px 14px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      font-family: 'DM Mono', monospace;
+      font-size: 12px;
+      color: var(--muted);
+      transition: all 0.15s;
+    }
+    .vote-btn:hover { background: var(--cream); color: var(--ink); }
+    .vote-btn.up:hover { color: #2d6a4f; }
+    .vote-btn.down:hover { color: var(--accent); }
+    .vote-btn span { border-left: 1.5px solid var(--border); padding-left: 12px; margin-left: 5px; }
+
+    .vote-btn.voted-up { background: #eaf5f0; color: #2d6a4f; font-weight: 600; }
+    .vote-btn.voted-down { background: #fdf0ef; color: var(--accent); font-weight: 600; }
+
+    .comment-count {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-family: 'DM Mono', monospace;
+      font-size: 12px;
+      color: var(--muted);
+      cursor: pointer;
+      transition: color 0.15s;
+    }
+    .comment-count:hover { color: var(--ink); }
+
+    .stance-bar {
+      flex: 1;
+      min-width: 160px;
+    }
+    .stance-label {
+      display: flex;
+      justify-content: space-between;
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      color: var(--muted);
+      margin-bottom: 3px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+    .stance-track {
+      height: 4px;
+      background: var(--border);
+      border-radius: 0;
+      overflow: hidden;
+      position: relative;
+    }
+    .stance-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #2d6a4f, #c0392b);
+      transition: width 0.6s ease;
+    }
+
+    /* ── FEATURED DEBATE (Hero) ── */
+    .featured-debate {
+      background: var(--ink);
+      color: var(--paper);
+      padding: 36px 40px;
+      margin-bottom: 0;
+      border-bottom: none;
+      position: relative;
+      overflow: hidden;
+    }
+    .featured-debate::before {
+      content: "FEATURED";
+      position: absolute;
+      top: 20px; right: 20px;
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      color: var(--gold);
+      border: 1px solid var(--gold);
+      padding: 3px 10px;
+    }
+    .featured-debate .region-tag { color: var(--gold); border-color: var(--gold); }
+    .featured-debate h3 { color: #fff; font-size: clamp(22px, 3.5vw, 36px); }
+    .featured-debate .summary { color: #c8c4bb; }
+    .featured-debate .vote-btn { color: #9a9488; }
+    .featured-debate .vote-btn:hover { background: rgba(255,255,255,0.08); color: #fff; }
+    .featured-debate .vote-group { border-color: #3d3932; }
+    .featured-debate .vote-btn span { border-color: #3d3932; }
+    .featured-debate .comment-count { color: #9a9488; }
+    .featured-debate .comment-count:hover { color: #fff; }
+    .featured-debate .stance-track { background: #2a2825; }
+
+    /* ── SIDEBAR ── */
+    .sidebar-section { margin-bottom: 36px; padding-top: 32px; }
+
+    .opinion-card {
+      padding: 18px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .opinion-card blockquote {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 15px;
+      line-height: 1.6;
+      color: var(--ink);
+      margin-bottom: 10px;
+      border-left: 3px solid var(--accent);
+      padding-left: 14px;
+    }
+
+    .author-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .avatar {
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'DM Mono', monospace;
+      font-size: 12px;
+      font-weight: 500;
+      flex-shrink: 0;
+    }
+
+    .author-info { flex: 1; }
+    .author-name {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--ink);
+    }
+    .author-tag {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      color: var(--muted);
+    }
+
+    .opinion-votes {
+      display: flex;
+      gap: 8px;
+      margin-top: 10px;
+    }
+    .mini-vote {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      color: var(--muted);
+      background: var(--cream);
+      border: 1px solid var(--border);
+      padding: 3px 10px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .mini-vote:hover { background: var(--ink); color: var(--paper); }
+
+    /* ── NEW DEBATE FORM ── */
+    .new-debate-box {
+      background: var(--cream);
+      border: 1.5px solid var(--border);
+      padding: 24px;
+      margin-bottom: 32px;
+    }
+    .new-debate-box h3 {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+      color: var(--muted);
+    }
+    .form-input {
+      width: 100%;
+      background: var(--paper);
+      border: 1.5px solid var(--border);
+      font-family: 'Source Serif 4', serif;
+      font-size: 14px;
+      color: var(--ink);
+      padding: 10px 14px;
+      margin-bottom: 10px;
+      outline: none;
+      resize: vertical;
+      transition: border-color 0.2s;
+    }
+    .form-input:focus { border-color: var(--ink); }
+
+    .form-row { display: flex; gap: 10px; }
+    .form-select {
+      flex: 1;
+      background: var(--paper);
+      border: 1.5px solid var(--border);
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      color: var(--muted);
+      padding: 9px 12px;
+      outline: none;
+      cursor: pointer;
+    }
+
+    /* ── STATS STRIP ── */
+    .stats-strip {
+      display: flex;
+      gap: 0;
+      border: 1.5px solid var(--border);
+      margin-bottom: 28px;
+      margin-top: 28px;
+    }
+    .stat-item {
+      flex: 1;
+      text-align: center;
+      padding: 16px 8px;
+      border-right: 1px solid var(--border);
+    }
+    .stat-item:last-child { border-right: none; }
+    .stat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 28px;
+      font-weight: 700;
+      line-height: 1;
+      display: block;
+    }
+    .stat-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      display: block;
+      margin-top: 4px;
+    }
+
+    /* ── COMMENT THREAD ── */
+    .comment-thread {
+      display: none;
+      background: var(--cream);
+      border: 1px solid var(--border);
+      padding: 20px;
+      margin-top: 16px;
+    }
+    .comment-thread.open { display: block; }
+
+    .comment {
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .comment:last-child { border-bottom: none; }
+    .comment-author {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      color: var(--ink);
+      margin-bottom: 5px;
+    }
+    .comment-text {
+      font-size: 14px;
+      color: #3d3a35;
+      line-height: 1.6;
+    }
+
+    .comment-input-row {
+      display: flex;
+      gap: 8px;
+      margin-top: 14px;
+    }
+    .comment-input-row input {
+      flex: 1;
+      background: var(--paper);
+      border: 1.5px solid var(--border);
+      font-family: 'Source Serif 4', serif;
+      font-size: 13px;
+      padding: 8px 12px;
+      outline: none;
+      color: var(--ink);
+    }
+    .comment-input-row input:focus { border-color: var(--ink); }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 3px double var(--border);
+      margin-top: 60px;
+      padding: 40px 48px;
+      text-align: center;
+    }
+    footer .footer-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 28px;
+      font-weight: 900;
+    }
+    footer p {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 8px;
+      letter-spacing: 0.08em;
+    }
+
+    /* ── MODAL ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(15,14,12,0.7);
+      z-index: 200;
+      align-items: center;
+      justify-content: center;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal {
+      background: var(--paper);
+      max-width: 560px;
+      width: 90%;
+      padding: 40px;
+      border: 1.5px solid var(--border);
+      animation: modalIn 0.25s ease;
+    }
+    @keyframes modalIn {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .modal h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 26px;
+      margin-bottom: 6px;
+    }
+    .modal-sub {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      margin-bottom: 24px;
+    }
+    .modal-close {
+      float: right;
+      background: none;
+      border: none;
+      font-size: 20px;
+      cursor: pointer;
+      color: var(--muted);
+      margin-top: -4px;
+    }
+
+    @media (max-width: 768px) {
+      .main-grid { grid-template-columns: 1fr; }
+      .feed { border-right: none; padding-right: 0; }
+      .sidebar { padding-left: 0; border-top: 2px solid var(--ink); }
+      .header-top { padding: 10px 20px; }
+      .masthead { padding: 16px 20px 12px; }
+      nav { padding: 0 20px; }
+      footer { padding: 30px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="debateModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <h2>Start a Debate</h2>
+    <p class="modal-sub">POST A GEOPOLITICAL QUESTION · INVITE ARGUMENTS</p>
+    <input class="form-input" type="text" placeholder="Debate title or question…" id="modal-title" style="display:block"/>
+    <textarea class="form-input" rows="4" placeholder="Provide context, background, or your initial position…" id="modal-body"></textarea>
+    <div class="form-row" style="margin-bottom:14px">
+      <select class="form-select" id="modal-region">
+        <option value="">Select region…</option>
+        <option>Asia-Pacific</option>
+        <option>Europe</option>
+        <option>Middle East</option>
+        <option>Americas</option>
+        <option>Africa</option>
+        <option>Global</option>
+      </select>
+      <select class="form-select" id="modal-type">
+        <option value="">Topic type…</option>
+        <option>Strategy</option>
+        <option>News Analysis</option>
+        <option>Policy</option>
+        <option>Military</option>
+        <option>Economics</option>
+      </select>
+    </div>
+    <button class="btn primary" style="width:100%;padding:12px" onclick="submitDebate()">Publish Debate</button>
+  </div>
+</div>
+
+<!-- HEADER -->
+<header>
+  <div class="header-top">
+    <span class="dateline" id="dateline"></span>
+    <div class="header-actions">
+      <button class="btn" onclick="openModal()">+ Start Debate</button>
+      <button class="btn primary">Sign In</button>
+    </div>
+  </div>
+  <div class="masthead">
+    <div class="masthead-name">Mirror World Forum</div>
+    <div class="masthead-rule">
+      <hr/><span class="masthead-tagline">Geopolitics · Strategy · Debate · Analysis</span><hr/>
+    </div>
+  </div>
+  <nav>
+    <a href="#" class="active">Home</a>
+    <a href="#">Debates</a>
+    <a href="#">Opinions</a>
+    <a href="#">Regions</a>
+    <a href="#">Strategy</a>
+    <a href="#">News</a>
+    <a href="#">About</a>
+  </nav>
+</header>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-inner">
+    <span>South China Sea tensions escalate as naval drills increase</span>
+    <span>NATO holds emergency summit on Eastern flank security</span>
+    <span>Iran nuclear talks stall for third consecutive round</span>
+    <span>African Union pushes for UN Security Council reform</span>
+    <span>US-China trade war enters new phase with tech tariffs</span>
+    <span>Russia-Ukraine ceasefire talks resume in Istanbul</span>
+    <span>India asserts strategic autonomy at G20 summit</span>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="page">
+  <div class="stats-strip">
+    <div class="stat-item">
+      <span class="stat-num" id="stat-debates">142</span>
+      <span class="stat-label">Active Debates</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num" id="stat-members">8.4K</span>
+      <span class="stat-label">Members</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num" id="stat-opinions">3.1K</span>
+      <span class="stat-label">Opinions Posted</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num">29</span>
+      <span class="stat-label">Countries Represented</span>
+    </div>
+  </div>
+
+  <div class="main-grid">
+    <!-- FEED -->
+    <main class="feed" id="debateFeed">
+
+      <!-- NEW DEBATE FORM -->
+      <div class="new-debate-box">
+        <h3>◆ Submit a Quick Debate</h3>
+        <input class="form-input" type="text" id="quick-title" placeholder="Your debate question or thesis…"/>
+        <textarea class="form-input" rows="3" id="quick-body" placeholder="Provide context or your opening argument…"></textarea>
+        <div class="form-row">
+          <select class="form-select" id="quick-region">
+            <option value="">Region…</option>
+            <option>Asia-Pacific</option>
+            <option>Europe</option>
+            <option>Middle East</option>
+            <option>Americas</option>
+            <option>Africa</option>
+            <option>Global</option>
+          </select>
+          <select class="form-select" id="quick-type">
+            <option value="">Topic…</option>
+            <option>Strategy</option>
+            <option>News Analysis</option>
+            <option>Policy</option>
+            <option>Military</option>
+            <option>Economics</option>
+          </select>
+          <button class="btn primary" onclick="quickSubmit()">Post</button>
+        </div>
+      </div>
+
+      <div class="section-header">
+        <h2>Hot Debates</h2>
+        <div class="tag">Live</div>
+      </div>
+
+      <!-- DEBATES INJECTED HERE -->
+      <div id="dynamicDebates"></div>
+
+    </main>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="sidebar-section">
+        <div class="section-header">
+          <h2>Latest Opinions</h2>
+        </div>
+        <div id="opinionsList"></div>
+      </div>
+
+      <div class="sidebar-section" style="padding-top:0">
+        <div class="section-header">
+          <h2>Top Analysts</h2>
+        </div>
+        <div id="analystsList"></div>
+      </div>
+    </aside>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-name">Mirror World Forum</div>
+  <p>A space for geopolitical discourse · All perspectives welcome · No propaganda</p>
+  <p style="margin-top:6px">© 2025 Mirror World Forum · GitHub: mirror-world-forum</p>
+</footer>
+
+<script>
+  // ── DATELINE ──
+  const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  const now = new Date();
+  document.getElementById('dateline').textContent =
+    `${days[now.getDay()]}, ${months[now.getMonth()]} ${now.getDate()}, ${now.getFullYear()}`;
+
+  // ── DATA ──
+  const regionColors = {
+    'Asia-Pacific': 'asia', 'Europe': 'europe', 'Middle East': 'mideast',
+    'Global': 'global', 'Americas': 'americas', 'Africa': 'mideast'
+  };
+
+  let debates = [
+    {
+      id: 1, featured: true,
+      title: "Is China's Belt and Road Initiative a debt trap — or a development lifeline?",
+      summary: "Critics argue BRI loans saddle developing nations with unsustainable debt and geopolitical leverage. Proponents counter that Western alternatives have historically underinvested in Global South infrastructure. Where does the evidence actually point?",
+      region: 'Asia-Pacific', time: '2h ago', upvotes: 214, downvotes: 87,
+      agree: 62, comments: [
+        { author: 'StrategistK', text: 'The Hambantota port deal with Sri Lanka is a textbook example of debt leverage.' },
+        { author: 'PolicyAnalyst88', text: 'Zambia, Kenya — the data shows refinancing, not seizure. The "trap" narrative is exaggerated.' },
+      ]
+    },
+    {
+      id: 2,
+      title: "NATO expansion: does it enhance security or provoke adversaries?",
+      summary: "The alliance's eastward growth since 1999 remains one of the most contested geopolitical debates. Does enlargement deter aggression, or does it create the very insecurity it seeks to prevent?",
+      region: 'Europe', time: '5h ago', upvotes: 178, downvotes: 134,
+      agree: 51, comments: [
+        { author: 'RealistIR', text: 'Mearsheimer\'s offensive realism predicted this outcome precisely.' },
+      ]
+    },
+    {
+      id: 3,
+      title: "Is a two-state solution in the Middle East still geopolitically viable in 2025?",
+      summary: "Decades of failed negotiations, settlement expansion, and shifting regional alliances raise the question: has the window for a two-state solution permanently closed?",
+      region: 'Middle East', time: '8h ago', upvotes: 302, downvotes: 198,
+      agree: 44, comments: []
+    },
+    {
+      id: 4,
+      title: "Will the US-China rivalry define a new Cold War — or lead to managed coexistence?",
+      summary: "The structural tensions between a rising China and an incumbent US superpower mirror historical power transitions. Is armed conflict inevitable, or can institutional frameworks prevent Thucydides' Trap?",
+      region: 'Global', time: '12h ago', upvotes: 259, downvotes: 61,
+      agree: 70, comments: []
+    }
+  ];
+
+  let opinions = [
+    { author: 'Dr. Meera Nair', tag: 'South Asia Analyst', text: 'India\'s strategic ambiguity is not indecision — it is a deliberate hedge that maximises leverage in a multipolar world.', up: 94, down: 12, color: '#c0392b', initials: 'MN' },
+    { author: 'Viktor Olenov', tag: 'Eurasian Security', text: 'The West underestimates how deeply energy dependency shapes European foreign policy calculus, especially post-2022.', up: 78, down: 31, color: '#1a3a5c', initials: 'VO' },
+    { author: 'Amara Diallo', tag: 'Africa Policy Forum', text: 'African nations are not passive actors in great power competition. They are learning to play multiple suitors against each other.', up: 121, down: 8, color: '#2d6a4f', initials: 'AD' },
+  ];
+
+  let analysts = [
+    { name: 'Dr. Meera Nair', tag: 'South Asia · 47 posts', color: '#c0392b', initials: 'MN' },
+    { name: 'Viktor Olenov', tag: 'Eurasia · 39 posts', color: '#1a3a5c', initials: 'VO' },
+    { name: 'James Thornbury', tag: 'Americas · 35 posts', color: '#6b3fa0', initials: 'JT' },
+    { name: 'Amara Diallo', tag: 'Africa · 28 posts', color: '#2d6a4f', initials: 'AD' },
+  ];
+
+  // ── RENDER ──
+  function renderDebates() {
+    const container = document.getElementById('dynamicDebates');
+    container.innerHTML = '';
+    debates.forEach((d, i) => {
+      const cls = d.featured ? 'debate-card featured-debate' : 'debate-card';
+      const regionCls = regionColors[d.region] || 'global';
+      const total = d.upvotes + d.downvotes;
+      const agreeW = Math.round((d.upvotes / total) * 100);
+      const commentsHtml = d.comments.map(c => `
+        <div class="comment">
+          <div class="comment-author">${c.author}</div>
+          <div class="comment-text">${c.text}</div>
+        </div>`).join('');
+
+      container.innerHTML += `
+        <div class="${cls}" style="animation-delay:${i * 0.08}s">
+          <div class="card-meta">
+            <span class="region-tag ${regionCls}">${d.region}</span>
+            <span class="card-time">${d.time}</span>
+          </div>
+          <h3 onclick="toggleComments(${d.id})">${d.title}</h3>
+          <p class="summary">${d.summary}</p>
+          <div class="card-footer">
+            <div class="vote-group">
+              <button class="vote-btn up" onclick="vote(${d.id}, 'up', this)">
+                ▲ <span id="up-${d.id}">${d.upvotes}</span>
+              </button>
+              <button class="vote-btn down" onclick="vote(${d.id}, 'down', this)">
+                ▼ <span id="down-${d.id}">${d.downvotes}</span>
+              </button>
+            </div>
+            <div class="comment-count" onclick="toggleComments(${d.id})">
+              💬 <span id="cc-${d.id}">${d.comments.length}</span> comments
+            </div>
+            <div class="stance-bar">
+              <div class="stance-label"><span>Agree ${agreeW}%</span><span>Disagree ${100-agreeW}%</span></div>
+              <div class="stance-track"><div class="stance-fill" id="bar-${d.id}" style="width:${agreeW}%"></div></div>
+            </div>
+          </div>
+          <div class="comment-thread" id="thread-${d.id}">
+            <div id="comments-${d.id}">${commentsHtml}</div>
+            <div class="comment-input-row">
+              <input type="text" placeholder="Add your argument…" id="cinput-${d.id}"/>
+              <button class="btn" onclick="addComment(${d.id})">Post</button>
+            </div>
+          </div>
+        </div>`;
+    });
+  }
+
+  function renderOpinions() {
+    document.getElementById('opinionsList').innerHTML = opinions.map((o, i) => `
+      <div class="opinion-card">
+        <blockquote>"${o.text}"</blockquote>
+        <div class="author-row">
+          <div class="avatar" style="background:${o.color}22;color:${o.color}">${o.initials}</div>
+          <div class="author-info">
+            <div class="author-name">${o.author}</div>
+            <div class="author-tag">${o.tag}</div>
+          </div>
+        </div>
+        <div class="opinion-votes">
+          <div class="mini-vote" onclick="voteOpinion(${i}, 'up', this)">▲ ${o.up}</div>
+          <div class="mini-vote" onclick="voteOpinion(${i}, 'down', this)">▼ ${o.down}</div>
+        </div>
+      </div>`).join('');
+  }
+
+  function renderAnalysts() {
+    document.getElementById('analystsList').innerHTML = analysts.map(a => `
+      <div style="display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--border)">
+        <div class="avatar" style="background:${a.color}22;color:${a.color}">${a.initials}</div>
+        <div>
+          <div class="author-name">${a.name}</div>
+          <div class="author-tag">${a.tag}</div>
+        </div>
+      </div>`).join('');
+  }
+
+  // ── INTERACTIONS ──
+  const voted = {};
+  function vote(id, dir, btn) {
+    const key = `d${id}`;
+    const debate = debates.find(d => d.id === id);
+    if (!debate) return;
+
+    const prev = voted[key];
+    if (prev === dir) return;
+
+    if (prev === 'up') debate.upvotes--;
+    if (prev === 'down') debate.downvotes--;
+    if (dir === 'up') debate.upvotes++;
+    if (dir === 'down') debate.downvotes++;
+    voted[key] = dir;
+
+    document.getElementById(`up-${id}`).textContent = debate.upvotes;
+    document.getElementById(`down-${id}`).textContent = debate.downvotes;
+
+    const total = debate.upvotes + debate.downvotes;
+    const agreeW = Math.round((debate.upvotes / total) * 100);
+    document.getElementById(`bar-${id}`).style.width = agreeW + '%';
+
+    const card = btn.closest('.debate-card');
+    card.querySelectorAll('.vote-btn').forEach(b => b.classList.remove('voted-up','voted-down'));
+    btn.classList.add(dir === 'up' ? 'voted-up' : 'voted-down');
+  }
+
+  const opVoted = {};
+  function voteOpinion(i, dir, el) {
+    const key = `o${i}`;
+    const prev = opVoted[key];
+    if (prev === dir) return;
+    if (prev === 'up') opinions[i].up--;
+    if (prev === 'down') opinions[i].down--;
+    if (dir === 'up') opinions[i].up++;
+    if (dir === 'down') opinions[i].down++;
+    opVoted[key] = dir;
+    renderOpinions();
+  }
+
+  function toggleComments(id) {
+    const thread = document.getElementById(`thread-${id}`);
+    thread.classList.toggle('open');
+  }
+
+  function addComment(id) {
+    const input = document.getElementById(`cinput-${id}`);
+    const text = input.value.trim();
+    if (!text) return;
+    const debate = debates.find(d => d.id === id);
+    debate.comments.push({ author: 'You', text });
+    const container = document.getElementById(`comments-${id}`);
+    const div = document.createElement('div');
+    div.className = 'comment';
+    div.innerHTML = `<div class="comment-author">You</div><div class="comment-text">${text}</div>`;
+    container.appendChild(div);
+    document.getElementById(`cc-${id}`).textContent = debate.comments.length;
+    input.value = '';
+  }
+
+  let nextId = 10;
+  function quickSubmit() {
+    const title = document.getElementById('quick-title').value.trim();
+    const body = document.getElementById('quick-body').value.trim();
+    const region = document.getElementById('quick-region').value || 'Global';
+    if (!title) return;
+    const newDebate = {
+      id: nextId++, featured: false,
+      title, summary: body || 'No description provided. Join the discussion.',
+      region, time: 'Just now', upvotes: 1, downvotes: 0, agree: 100, comments: []
+    };
+    debates.unshift(newDebate);
+    document.getElementById('quick-title').value = '';
+    document.getElementById('quick-body').value = '';
+    document.getElementById('stat-debates').textContent = parseInt(document.getElementById('stat-debates').textContent) + 1;
+    renderDebates();
+  }
+
+  function openModal() {
+    document.getElementById('debateModal').classList.add('open');
+  }
+  function closeModal() {
+    document.getElementById('debateModal').classList.remove('open');
+  }
+  function submitDebate() {
+    const title = document.getElementById('modal-title').value.trim();
+    const body = document.getElementById('modal-body').value.trim();
+    const region = document.getElementById('modal-region').value || 'Global';
+    if (!title) return;
+    const newDebate = {
+      id: nextId++, featured: false,
+      title, summary: body || 'No description provided.',
+      region, time: 'Just now', upvotes: 1, downvotes: 0, agree: 100, comments: []
+    };
+    debates.unshift(newDebate);
+    closeModal();
+    renderDebates();
+  }
+  document.getElementById('debateModal').addEventListener('click', function(e) {
+    if (e.target === this) closeModal();
+  });
+
+  // ── INIT ──
+  renderDebates();
+  renderOpinions();
+  renderAnalysts();
+</script>
+</body>
+</html>
